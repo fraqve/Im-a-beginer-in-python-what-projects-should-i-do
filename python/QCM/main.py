@@ -11,52 +11,56 @@ def make_the_ui():
 def add_question():
     title = input("Please type the title of the quetion: ")
     print()
-    print("Please type the wrong answers make the seperation between the wrong answers by a ','") # if there is more then one wrong answer ask user to seperate them with a ,
+    print("Please type the wrong answers make the seperation between the wrong answers by a ','")
     print()
-    answers = input("Enter the wrong answers(only): ") # asking user to type the answers only so i can store them later on
-    structerd_wrong_answers = answers.split(",") # spliting the wrong answers to make a list
+    answers = input("Enter the wrong answers(only): ")
+    structerd_wrong_answers = answers.split(",") # spliting the wrong questions to make a list
     print()
-    right_answer = input("Type the right answer: ") # asking user to type the right answer
-    structerd_question = [title, structerd_wrong_answers, right_answer] # Making a list inculding the data required
+    right_answer = input("Type the right answer: ")
+    structerd_question = [title, structerd_wrong_answers, right_answer] # Making a tupel inculding the data required
     print()
     print()
-    return structerd_question # returning the structerd question   it should  look like this:  ["question" , ["wrong answer"] , "right answer"]
+    return structerd_question
 
-def start_qcm(questions): # needs the questions
+def start_qcm(questions):
     print() # q[0] stands for the title   q[1] stands for the wrong answers  q[2] stands for the correct answer
     score = 0
-    for e in questions: ~# for each elment in the list questions  btw i mean by elment question
+    for q in questions:
         print()
-        print(e[0]) # printing the title
-        print(e[2]) # printing the correct answer
-        for i in q[1]:
-            print(i) # printing all the wrong answers
+        print(q[0]) # printing the title
+        print(q[2]) # printing the correct answer
+        for x in q[1]:
+            print(x) # printing all the wrong answers
         print()
         answer = input("Type your answer: ")
-        if answer.lower() == e[2].lower(): # cheking the user answer and the right one
+        if answer.lower() == q[2].lower():
             print("Correct!")
-            score += 1 # incrising the score
+            score += 1
         else:
             print("Uncorrect :(")
         print()
-    print(f"Final score: {score} of {len(questions)}") # just a thing to print the final score and how many questions you answered right
+    print(f"Final score: {score} of {len(questions)}")
     
 def save_qcm(questions):
-    with open("saves.txt","w") as file: # opening the file with write only   'w'
+    with open("saves.txt","w") as file:
         i = 0
-        for q in questions:  # for each question in list questions
-            file.write(f"{questions[i][0]}") # we selct the title
-            for answer in questions[i][1]: # for each wrong answer in the list of the wrong answers
-                file.write(answer)
-            file.write(questions[i][2]) # we write the right answer last
-            i += 1 
+        for q in questions:  
+            file.write(f"{q}")
+            i += 1
+    print()
+    print("file saved")
+    print()
 
 def load_qcm():
     with open("saves.txt","r") as file:
         lines = file.readlines()
     question_str = lines[0]
-    question_list = ast.literal_eval(question_str) # this is a library that let s me covert a string that is a list like  ["["example" , "othe example"]"] into a true list
-    return question_list
+    question_list = ast.literal_eval(question_str)
+    global_question = [question_list]
+    print()
+    print("file loaded")
+    print()
+    return global_question
 
 
 
@@ -78,7 +82,7 @@ while True:
     elif selection == "3":
         save_qcm(questions)
     elif selection == "4":
-        load_qcm()
+        questions = load_qcm()
 
 
 
